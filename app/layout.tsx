@@ -3,6 +3,7 @@
 import { AppLayout, BreadcrumbGroup, HelpPanel, SideNavigation } from '@cloudscape-design/components';
 import { Inter } from 'next/font/google';
 import '@cloudscape-design/global-styles/index.css'
+import 'dotenv/config';
 
 const inter = Inter({ subsets: ['latin'] });
 

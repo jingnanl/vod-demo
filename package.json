@@ -11,6 +11,8 @@
   "dependencies": {
     "@cloudscape-design/components": "^3.0.638",
     "@cloudscape-design/global-styles": "^1.0.27",
+    "aws-sdk": "^2.1628.0",
+    "dotenv": "^16.4.5",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18"

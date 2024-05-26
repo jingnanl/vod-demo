@@ -6,6 +6,7 @@ import SpecifySource from '@/components/wizard/SpecifySource';
 import SubmitJob from '@/components/wizard/SubmitJob';
 import { Link, Wizard } from '@cloudscape-design/components';
 import { Dispatch, SetStateAction, useState } from 'react';
+import AWS from 'aws-sdk';
 
 interface MediaConvertJobState {
   xml?: string;
@@ -19,6 +20,11 @@ export interface StepContentProps {
   jobState: MediaConvertJobState;
   setJobState:  Dispatch<SetStateAction<MediaConvertJobState>>;
 }
+
+const s3 = new AWS.S3({
+  accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
+});
 
 const steps = [
   {
@@ -74,6 +80,25 @@ export default function Home() {
     isOptional: !!isOptional,
   }));
 
+  const submit = () => {
+    const jsonStr = JSON.stringify(jobState, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const file = new File([blob], 'job.json', { type: 'application/json' });
+
+    const params = {
+      Bucket: 'lambda-extension-poc-s3-logs',
+      Key: 'job.json',
+      Body: file,
+    };
+
+    s3.upload(params, (err: any, data: any) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(data);
+      }
+    });
+  };
 
   return (
     <Wizard
@@ -86,7 +111,7 @@ export default function Home() {
         alert('cancel')
       }}
       onSubmit={() => {
-        alert('submit')
+        submit();
       }}
     />
   );
