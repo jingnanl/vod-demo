@@ -1,0 +1,89 @@
+{
+  "Queue": "arn:aws:mediaconvert:us-east-1:180271428986:queues/Default",
+  "UserMetadata": {},
+  "Role": "arn:aws:iam::180271428986:role/service-role/MediaConvert_Default_Role",
+  "Settings": {
+    "TimecodeConfig": {
+      "Source": "ZEROBASED"
+    },
+    "OutputGroups": [
+      {
+        "Name": "File Group",
+        "Outputs": [
+          {
+            "ContainerSettings": {
+              "Container": "MP4",
+              "Mp4Settings": {}
+            },
+            "VideoDescription": {
+              "Width": 1920,
+              "Height": 1080,
+              "VideoPreprocessors": {
+                "ColorCorrector": {
+                  "ColorSpaceConversion": "FORCE_709"
+                }
+              },
+              "CodecSettings": {
+                "Codec": "H_264",
+                "H264Settings": {
+                  "FramerateDenominator": 1,
+                  "Bitrate": 6500000,
+                  "FramerateControl": "SPECIFIED",
+                  "CodecProfile": "HIGH",
+                  "FramerateNumerator": 25
+                }
+              }
+            },
+            "AudioDescriptions": [
+              {
+                "AudioSourceName": "Audio Selector 1",
+                "AudioNormalizationSettings": {
+                  "Algorithm": "ITU_BS_1770_1",
+                  "TargetLkfs": -24
+                },
+                "CodecSettings": {
+                  "Codec": "AAC",
+                  "AacSettings": {
+                    "Bitrate": 128000,
+                    "CodingMode": "CODING_MODE_2_0",
+                    "SampleRate": 48000
+                  }
+                }
+              }
+            ],
+            "NameModifier": "tc"
+          }
+        ],
+        "OutputGroupSettings": {
+          "Type": "FILE_GROUP_SETTINGS",
+          "FileGroupSettings": {
+            "Destination": "s3://vod-destination920a3c57-2wq0aerk7ncm/tc/mp4/1920/",
+            "DestinationSettings": {
+              "S3Settings": {
+                "StorageClass": "STANDARD"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "FollowSource": 1,
+    "Inputs": [
+      {
+        "AudioSelectors": {
+          "Audio Selector 1": {
+            "DefaultSelection": "DEFAULT"
+          }
+        },
+        "VideoSelector": {},
+        "TimecodeSource": "ZEROBASED"
+      }
+    ]
+  },
+  "BillingTagsSource": "JOB",
+  "AccelerationSettings": {
+    "Mode": "DISABLED"
+  },
+  "StatusUpdateInterval": "SECONDS_60",
+  "Priority": 0
+}
