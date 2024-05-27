@@ -96,6 +96,7 @@ export default function Home() {
         console.error(err);
       } else {
         console.log(data);
+        alert('Job submitted successfully');
       }
     });
   };
